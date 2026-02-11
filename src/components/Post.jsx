@@ -10,9 +10,9 @@ export default function Post({post}){
             <div >
                 <h2 className="text-blue-950 font-bold text-2xl mb-6">{post.title}</h2>
 
-                <div className="flex felx-row justify-start gap-2 items-start  pb-2">
+                <div className="flex flex-row justify-start gap-2 items-start  pb-2">
                     <div>
-                        <p className="text-gray-800 text-sm font-semibold">{post.author.name}</p>
+                        <p className="text-blue-950 text-sm font-semibold">{post.author.name}</p>
                     </div>
                     <div>
                         <p className="text-gray-700 text-sm font-light">{formatDistanceToNow(new Date(post.createdAt), {addSuffix: true})}</p>
