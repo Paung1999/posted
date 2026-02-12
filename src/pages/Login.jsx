@@ -39,11 +39,11 @@ export default function Login() {
     }
   }
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-200 p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+    <div className="flex min-h-screen items-center justify-center bg-gray-200 dark:bg-gray-800 p-4">
+      <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-blue-950">Welcome Back</h2>
-          <p className="text-gray-500 mt-2">Please enter your details</p>
+          <h2 className="text-3xl font-bold text-blue-950 dark:text-gray-200">Welcome Back</h2>
+          <p className="text-gray-500 dark:text-gray-200 mt-2">Please enter your details</p>
         </div>
 
         {loginError && <div className="text-red-500 text-center mb-4">Login failed. Please check your credentials.</div>}
@@ -51,7 +51,7 @@ export default function Login() {
         <form className="flex flex-col gap-5" onSubmit={handleSubmit(login)}>
           
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700 ml-1">
+            <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 ml-1">
               Email Address
             </label>
             <input 
@@ -65,7 +65,7 @@ export default function Login() {
 
          
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700 ml-1">
+            <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 ml-1">
               Password
             </label>
             <input 
@@ -82,22 +82,22 @@ export default function Login() {
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="rounded text-blue-600" />
-              <span className="text-gray-600">Remember me</span>
+              <span className="text-gray-600 dark:text-gray-200">Remember me</span>
             </label>
-            <a href="#" className="text-blue-600 hover:underline font-medium">Forgot password?</a>
+            <a href="#" className="text-blue-600 dark:text-gray-200 hover:underline font-medium">Forgot password?</a>
           </div>
 
           
           <button 
             type="submit"
-            className="w-full bg-blue-950 text-white font-bold py-3 rounded-lg hover:bg-blue-900 transform transition-active active:scale-[0.98] shadow-lg mt-2 cursor-pointer"
+            className="w-full bg-blue-950 dark:bg-blue-500 text-white font-bold py-3 rounded-lg hover:bg-blue-900 transform transition-active active:scale-[0.98] shadow-lg mt-2 cursor-pointer"
           >
             Sign In
           </button>
         </form>
 
         
-        <p className="text-center text-gray-600 mt-8 text-sm">
+        <p className="text-center text-gray-600 dark:text-gray-200 mt-8 text-sm">
           Don't have an account? 
           <a href="/register" className="text-blue-600 font-bold ml-1 hover:underline">Sign up</a>
         </p>

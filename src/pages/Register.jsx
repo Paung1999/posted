@@ -35,17 +35,17 @@ export default function Register(){
         }
     }
     return(
-        <div className="flex min-h-screen items-center justify-center bg-gray-200 p-4">
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        <div className="flex min-h-screen items-center justify-center bg-gray-200 dark:bg-gray-800 p-4">
+            <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-blue-950">Create Account</h2>
-                    <p className="text-gray-500 mt-2">Please enter your details</p>
+                    <h2 className="text-3xl font-bold text-blue-950 dark:text-gray-200">Create Account</h2>
+                    <p className="text-gray-500 dark:text-gray-200 mt-2">Please enter your details</p>
                 </div>
                 {registerError && <div className="text-red-500 text-center mb-4">Registration failed. Please try again.</div>}
 
                 <form className="flex flex-col gap-5" onSubmit={handleSubmit(registerUser)}>
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-sm font-semibold text-gray-700 ml-1">Name</label>
+                        <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 ml-1">Name</label>
                         <input type="text"
                             {...register("name", {required: "Name is required"})}
                             required
@@ -56,7 +56,7 @@ export default function Register(){
                     {errors.name && <p className="text-red-600">{errors.name.message}</p>}
 
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-sm font-semibold text-gray-700 ml-1">Email</label>
+                        <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 ml-1">Email</label>
                         <input type="email"
                             {...register("email", {required: "Email is required"})}
                             required
@@ -67,7 +67,7 @@ export default function Register(){
                     {errors.email && <p className="text-red-600">{errors.email.message}</p>}
 
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-sm font-semibold text-gray-700 ml-1">Password</label>
+                        <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 ml-1">Password</label>
                         <input type="password"
                             {...register("password", {required: "Password is required"})}
                             required
@@ -78,7 +78,7 @@ export default function Register(){
                     {errors.password && <p className="text-red-600">{errors.password.message}</p>}
 
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-sm font-semibold text-gray-700 ml-1">Confirm Password</label>
+                        <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 ml-1">Confirm Password</label>
                         <input type="password"
                             {...register("confirmPassword", {required: "Confirm Password is required"})}
                             required
@@ -89,7 +89,7 @@ export default function Register(){
 
                     
 
-                    <button type="submit" className="w-full bg-blue-950 text-white font-bold py-3 rounded-lg hover:bg-blue-900 transform transition-active active:scale-[0.98] shadow-lg mt-2 cursor-pointer">
+                    <button type="submit" className="w-full bg-blue-950 dark:bg-blue-500 text-white font-bold py-3 rounded-lg hover:bg-blue-900 transform transition-active active:scale-[0.98] shadow-lg mt-2 cursor-pointer">
                         Sign Up
                     </button>
                 </form>

@@ -7,9 +7,9 @@ export default function Header(){
     const {mode, setMode, openDrawer, setOpenDrawer} = useApp();
 
     return(
-        <header className="flex flex-row justify-between items-center p-4 bg-white shadow-md h-16 shrink-0 w-full ">
+        <header className="flex flex-row justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md h-16 shrink-0 w-full ">
             <div className="flex flex-row items-center gap-4">
-                <button onClick={() => setOpenDrawer(!openDrawer)} className="text-xl text-gray-600 hover:text-gray-800  transition-colors cursor-pointer">
+                <button onClick={() => setOpenDrawer(!openDrawer)} className="text-xl text-gray-600 dark:text-gray-200  hover:text-gray-800 dark:hover:text-gray-300 transition-colors cursor-pointer">
                     <FontAwesomeIcon icon={faBars} />
                 </button>
                 <h1 className="text-2xl font-bold text-blue-950 dark:text-blue-500">Posted</h1>

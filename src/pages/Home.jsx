@@ -23,7 +23,7 @@ export default function Home(){
 
 
     return(
-        <div className=" flex flex-col w-full max-w-2xl mx-auto gap-6 py-8 px-4">
+        <div className=" flex flex-col w-full max-w-2xl mx-auto gap-2 py-8 px-2">
             {posts.map((post)=> {
                 return <Post key={post.id} post={post}/>
             })}

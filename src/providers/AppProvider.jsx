@@ -1,4 +1,4 @@
-import { useContext, useState, createContext, useEffect } from "react";
+import { useContext, useState, createContext, useEffect , useMemo } from "react";
 
 const AppContext = createContext();
 
@@ -19,7 +19,7 @@ export default function AppProvider({children}){
             fetch(`${api}/users/verify`, {
                 method: 'GET',
                 headers:{
-                    Authorization: `Beare ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             }).then( async res => {
                 const user = await res.json();
@@ -35,7 +35,7 @@ export default function AppProvider({children}){
     },[]);
 
 
-    useEffect(() => {
+    useMemo(() => {
         const root = window.document.documentElement;
 
         if(mode === 'light'){
