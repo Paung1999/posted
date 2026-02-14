@@ -8,9 +8,12 @@ import Register from './pages/Register.jsx'
 import Profile from './pages/Profile.jsx'
 import AppProvider from './providers/AppProvider.jsx'
 import PostDetail from './pages/PostDetail.jsx'
+import AddPostPage from './pages/AddPostPage.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import AdminRoute from './components/AdminRoute.jsx'
 
 const queryClient =  new QueryClient()
 
@@ -39,6 +42,19 @@ const router = createBrowserRouter([
         path: '/PostDetail/:id',
         element: <PostDetail/>
       },
+      {
+        path: '*',
+        element: <NotFound/>
+      },
+      {
+        element: <AdminRoute/>,
+        children: [
+          {
+            path: '/add',
+            element: <AddPostPage/>
+          }
+        ]
+      }
     ]
   }
 ]);

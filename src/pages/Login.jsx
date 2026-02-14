@@ -29,10 +29,20 @@ export default function Login() {
         return false;
       }
 
-      const {user , token} = await res.json();
-      setAuth(user);
+      const {user:loginUser , token} = await res.json();
       localStorage.setItem('token', token);
-      navigate('/');
+      const verifyRes = await fetch('http://localhost:8800/users/verify', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      if(verifyRes.ok){
+        const user = await verifyRes.json();
+        setAuth(user);
+        navigate('/');
+      }
 
     }catch(err){
       setLoginError(true);

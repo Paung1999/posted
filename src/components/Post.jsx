@@ -1,14 +1,19 @@
 import { useNavigate } from "react-router";
 import { formatDistanceToNow } from "date-fns";
 
+import PostActions from "../components/PostActions";
+
+
 
 export default function Post({post}){
     const navigate = useNavigate();
-    
     return(
-        <div className="w-full max-w-2xl min-h-70 flex flex-col justify-between p-8 bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-700 rounded-2xl shadow-xl border border-gray-200 hover:shadow-2xl cursor-pointer trasistion-all duration-300 m-auto" onClick={()=> navigate(`/PostDetail/${post.id}`)}>
+        <div className="w-full max-w-2xl min-h-70 flex flex-col justify-between p-8 bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-700 rounded-2xl shadow-xl border border-gray-200 hover:shadow-2xl cursor-pointer transition-all duration-300 m-auto" onClick={()=> navigate(`/PostDetail/${post.id}`)}>
             <div >
-                <h2 className="text-blue-950 dark:text-gray-200 font-bold text-2xl mb-6">{post.title}</h2>
+                <div className="flex flex-row justify-between items-center">
+                    <h2 className="text-blue-950 dark:text-gray-200 font-bold text-2xl mb-6">{post.title}</h2>
+                    <PostActions post={post}/>
+                </div>
 
                 <div className="flex flex-row justify-start gap-2 items-start  pb-2">
                     <div>

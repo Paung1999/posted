@@ -5,6 +5,7 @@ import {
   faCircleUser,
   faArrowRightToBracket,
   faArrowRightFromBracket,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useApp } from "../providers/AppProvider";
 export default function AppDrawer() {
@@ -26,6 +27,15 @@ export default function AppDrawer() {
       </button>
       {auth ? (
         <>
+          { auth && auth.role === 'ADMIN' ? (
+            <button
+            onClick={() => navigate("/add")}
+            className="flex flex-row justify-center items-center gap-2 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 transition-all duration-300 ease-in-out w-5/6 rounded-lg cursor-pointer"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+            <h3 className="font-semibold font-sans ">Add Post</h3>
+          </button>
+          ): null}
           <button
             onClick={() => navigate("/profile")}
             className="flex flex-row justify-center items-center gap-2 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 transition-all duration-300 ease-in-out w-5/6 rounded-lg cursor-pointer"

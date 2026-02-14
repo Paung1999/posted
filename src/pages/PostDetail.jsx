@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import Comment from "../components/Comment";
+import Loading from "../components/Loading";
 
 const api = "http://localhost:8800";
 
@@ -20,7 +21,7 @@ export default function PostDetail() {
   });
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loading />;
   }
 
   if (isError) {

@@ -1,5 +1,6 @@
 import Post from "../components/Post";
 import {useQuery} from '@tanstack/react-query';
+import Loading from "../components/Loading";
 
 const api = "http://localhost:8800/posts";
 
@@ -14,7 +15,7 @@ export default function Home(){
     });
 
     if(isLoading){
-        return <h1>Loading...</h1>
+        return <Loading />
     }
 
     if(isError){
