@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import Comment from "../components/Comment";
 import Loading from "../components/Loading";
+import AddCommentForm from "../components/AddCommentForm";
 
 const api = "http://localhost:8800";
 
@@ -57,14 +58,18 @@ export default function PostDetail() {
         </div>
       </div>
 
-      <div className="w-full max-w-2xl min-h-70 bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-xl  flex flex-col items-center justify-center p-8 ">
+      <AddCommentForm postId={post.id}/>
+
+      {post.comment.length > 0?(
+        <div className="w-full max-w-2xl min-h-70 bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-xl  flex flex-col items-center justify-center p-8 ">
         <div className="w-full max-w-2xl  bg-inherit rounded-lg flex items-start mb-2">
             <p className="text-blue-500 font-bold text-2xl p-4">Comments</p>
         </div>
         {post.comment && post.comment.map((comment)=> {
-            return <Comment key={comment.id} comment={comment}/>
+            return <Comment key={comment.id} comment={comment} post={post}/>
         })}
       </div>
+      ): null}
     </div>
   );
 }
