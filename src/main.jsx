@@ -6,6 +6,7 @@ import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import Profile from './pages/Profile.jsx'
+import EditProfile from './pages/EditProfile.jsx'
 import AppProvider from './providers/AppProvider.jsx'
 import PostDetail from './pages/PostDetail.jsx'
 import AddPostPage from './pages/AddPostPage.jsx'
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile/>
+      },
+      {
+        path: '/editProfile',
+        element: <EditProfile/>
       },
       {
         path: '/PostDetail/:id',

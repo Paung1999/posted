@@ -4,10 +4,12 @@ import { formatDistanceToNow } from "date-fns";
 import Comment from "../components/Comment";
 import Loading from "../components/Loading";
 import AddCommentForm from "../components/AddCommentForm";
+import { useApp } from "../providers/AppProvider";
 
 const api = "http://localhost:8800";
 
 export default function PostDetail() {
+  const { auth } = useApp();
   const { id } = useParams();
   const {
     data: post,
@@ -58,7 +60,9 @@ export default function PostDetail() {
         </div>
       </div>
 
-      <AddCommentForm postId={post.id}/>
+      {auth && (
+        <AddCommentForm postId={post.id}/>
+      )}
 
       {post.comment.length > 0?(
         <div className="w-full max-w-2xl min-h-70 bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-xl  flex flex-col items-center justify-center p-8 ">
