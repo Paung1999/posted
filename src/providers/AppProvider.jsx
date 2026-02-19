@@ -35,7 +35,7 @@ export default function AppProvider({children}){
     },[]);
 
 
-    useMemo(() => {
+    useEffect(() => {
         const root = window.document.documentElement;
 
         if(mode === 'light'){

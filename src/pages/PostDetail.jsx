@@ -5,6 +5,7 @@ import Comment from "../components/Comment";
 import Loading from "../components/Loading";
 import AddCommentForm from "../components/AddCommentForm";
 import { useApp } from "../providers/AppProvider";
+import PostActions from "../components/PostActions";
 
 const api = "http://localhost:8800";
 
@@ -35,9 +36,10 @@ export default function PostDetail() {
     <div className="flex flex-col justify-center items-center">
         <div className="w-full max-w-2xl min-h-70 flex flex-col justify-between p-8 bg-gray-100 dark:bg-gray-800  rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 hover:shadow-2xl dark:hover:shadow-2xl cursor-pointer transistion-all duration-300 m-auto">
         <div>
-          <h2 className="text-gray-900 dark:text-gray-200  font-bold text-2xl mb-6">
-            {post.title}
-          </h2>
+          <div className="flex flex-row justify-between items-center">
+                              <h2 className="text-blue-950 dark:text-gray-200 font-bold text-2xl mb-6">{post.title}</h2>
+                              <PostActions post={post}/>
+                          </div>
 
           <div className="flex flex-row justify-start gap-2 items-start  pb-2">
             <div>
