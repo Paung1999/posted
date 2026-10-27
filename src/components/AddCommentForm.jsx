@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 
-const api = "http://localhost:8800";
+const api = import.meta.env.VITE_API_URL;
 
 export default function AddCommentForm({postId}){
     const queryClient = useQueryClient();

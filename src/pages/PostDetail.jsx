@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import {Link, useParams} from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import Comment from "../components/Comment";
@@ -7,7 +7,7 @@ import AddCommentForm from "../components/AddCommentForm";
 import { useApp } from "../providers/AppProvider";
 import PostActions from "../components/PostActions";
 
-const api = "http://localhost:8800";
+const api = import.meta.env.VITE_API_URL;
 
 export default function PostDetail() {
   const { auth } = useApp();
@@ -17,11 +17,13 @@ export default function PostDetail() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["posts", id],
+    queryKey: ["post", String(id)],
     queryFn: async () => {
       const res = await fetch(`${api}/posts/${id}`);
+      if (!res.ok) throw new Error("Failed to fetch post");
       return res.json();
     },
+    staleTime: 1000 * 60 * 5,
   });
 
   if (isLoading) {
@@ -32,50 +34,73 @@ export default function PostDetail() {
     return <h1>Error...</h1>;
   }
 
-  return (
-    <div className="flex flex-col justify-center items-center">
-        <div className="w-full max-w-2xl min-h-70 flex flex-col justify-between p-8 bg-gray-100 dark:bg-gray-800  rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 hover:shadow-2xl dark:hover:shadow-2xl cursor-pointer transistion-all duration-300 m-auto">
-        <div>
-          <div className="flex flex-row justify-between items-center">
-                              <h2 className="text-blue-950 dark:text-gray-200 font-bold text-2xl mb-6">{post.title}</h2>
-                              <PostActions post={post}/>
-                          </div>
+  const createdAt = new Date(post.createdAt);
+  const updatedAt = post.updatedAt? new Date(post.updatedAt) : null;
+  const isEdited = updatedAt !== null && updatedAt.getTime() !== createdAt.getTime();
 
-          <div className="flex flex-row justify-start gap-2 items-start  pb-2">
+  return (
+      <>
+        <div className="flex flex-col  items-center gap-4 px-4 py-6">
+          <div className="w-full max-w-2xl">
+            <Link
+                to="/"
+                className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline dark:text-blue-400"
+            >
+              ← Back to posts
+            </Link>
+          </div>
+          <div className="w-full max-w-2xl min-h-70 flex flex-col justify-between p-8 bg-gray-100 dark:bg-gray-800
+              rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 hover:shadow-2xl dark:hover:shadow-2xl
+              cursor-pointer transistion-all duration-300 m-auto">
             <div>
-              <p className="text-gray-800 dark:text-gray-200 text-sm font-semibold">
-                {post.author.name}
-              </p>
-            </div>
-            <div>
-              <p className="text-gray-700 dark:text-gray-200 text-sm font-light">
-                {formatDistanceToNow(new Date(post.createdAt), {
-                  addSuffix: true,
-                })}
+              <div className="flex flex-row justify-between items-center">
+                <h2 className="text-blue-950 dark:text-gray-200 font-bold text-2xl mb-6">
+                  {post.title}
+                </h2>
+                <PostActions post={post}/>
+              </div>
+
+              <div className="flex flex-row justify-start gap-2 items-start  pb-2">
+                <div>
+                  <p className="text-gray-800 dark:text-gray-200 text-sm font-semibold">
+                    {post.author.name}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-gray-700 dark:text-gray-200 text-sm font-light">
+                    {isEdited && updatedAt ? `(edited ${formatDistanceToNow(updatedAt, {
+                      addSuffix: true,
+                    })})`:
+                      `${formatDistanceToNow(createdAt,{
+                        addSuffix: true,
+                      })}`
+                    }
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-gray-700 dark:text-gray-200 text-xl leading-relaxed ">
+                {post.content}
               </p>
             </div>
           </div>
 
-          <p className="text-gray-700 dark:text-gray-200 text-xl leading-relaxed ">
-            {post.content}
-          </p>
-        </div>
-      </div>
+          {auth && (
+              <AddCommentForm postId={post.id}/>
+          )}
 
-      {auth && (
-        <AddCommentForm postId={post.id}/>
-      )}
-
-      {post.comment.length > 0?(
-        <div className="w-full max-w-2xl min-h-70 bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-xl  flex flex-col items-center justify-center p-8 ">
-        <div className="w-full max-w-2xl  bg-inherit rounded-lg flex items-start mb-2">
-            <p className="text-blue-500 font-bold text-2xl p-4">Comments</p>
+          {post.comment.length > 0?(
+              <div className="w-full max-w-2xl min-h-70 bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-xl  flex flex-col items-center justify-center p-8 ">
+                <div className="w-full max-w-2xl  bg-inherit rounded-lg flex items-start mb-2">
+                  <p className="text-blue-500 font-bold text-2xl p-4">Comments</p>
+                </div>
+                {post.comment && post.comment.map((comment)=> {
+                  return <Comment key={comment.id} comment={comment} post={post}/>
+                })}
+              </div>
+          ): null}
         </div>
-        {post.comment && post.comment.map((comment)=> {
-            return <Comment key={comment.id} comment={comment} post={post}/>
-        })}
-      </div>
-      ): null}
-    </div>
+      </>
+
   );
 }

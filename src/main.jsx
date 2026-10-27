@@ -15,8 +15,15 @@ import NotFound from './pages/NotFound.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AdminRoute from './components/AdminRoute.jsx'
+import EditPostPage from "./pages/EditPostPage.jsx";
 
-const queryClient =  new QueryClient()
+const queryClient =  new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+    }
+  }
+});
 
 const router = createBrowserRouter([
   {
@@ -44,7 +51,7 @@ const router = createBrowserRouter([
         element: <EditProfile/>
       },
       {
-        path: '/PostDetail/:id',
+        path: '/postDetails/:id',
         element: <PostDetail/>
       },
       {
@@ -57,6 +64,10 @@ const router = createBrowserRouter([
           {
             path: '/add',
             element: <AddPostPage/>
+          },
+          {
+            path: '/edit/:id',
+            element: <EditPostPage/>
           }
         ]
       }

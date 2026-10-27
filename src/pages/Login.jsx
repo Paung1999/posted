@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import {Link, useNavigate} from "react-router";
 import { useApp } from "../providers/AppProvider";
 
+const api = import.meta.env.VITE_API_URL;
 
 export default function Login() {
   const [loginError, setLoginError] = useState(false);
@@ -17,7 +18,7 @@ export default function Login() {
 
   const login = async (data) => {
     try{
-      const res = await fetch('http://localhost:8800/users/login',{
+      const res = await fetch(`${api}/users/login`,{
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
@@ -29,9 +30,9 @@ export default function Login() {
         return false;
       }
 
-      const {user:loginUser , token} = await res.json();
+      const { token} = await res.json();
       localStorage.setItem('token', token);
-      const verifyRes = await fetch('http://localhost:8800/users/verify', {
+      const verifyRes = await fetch(`${api}/users/verify`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`
@@ -44,16 +45,16 @@ export default function Login() {
         navigate('/');
       }
 
-    }catch(err){
+    }catch{
       setLoginError(true);
     }
   }
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-200 dark:bg-gray-800 p-4">
-      <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8">
+      <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-lg shadow-xl p-8">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-blue-950 dark:text-gray-200">Welcome Back</h2>
-          <p className="text-gray-500 dark:text-gray-200 mt-2">Please enter your details</p>
+          <p className="text-gray-500 dark:text-gray-200 mt-2">Please sign in your account</p>
         </div>
 
         {loginError && <div className="text-red-500 text-center mb-4">Login failed. Please check your credentials.</div>}
@@ -68,7 +69,7 @@ export default function Login() {
               type="email" 
               {...register("email", { required: "Email is required" })}
               placeholder="name@company.com"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-3 rounded-sm border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
             />
           </div>
           {errors.email && <p className="text-red-600">{errors.email.message}</p> }
@@ -82,13 +83,11 @@ export default function Login() {
               type="password" 
               {...register("password", { required: "Password is required" })}
               placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-3 rounded-sm border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
             />
           </div>
           {errors.password && <p className="text-red-600">{errors.password.message}</p> }
 
-
-          {/* Helper Links */}
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="rounded text-blue-600" />
@@ -100,7 +99,7 @@ export default function Login() {
           
           <button 
             type="submit"
-            className="w-full bg-blue-950 dark:bg-blue-500 text-white font-bold py-3 rounded-lg hover:bg-blue-900 transform transition-active active:scale-[0.98] shadow-lg mt-2 cursor-pointer"
+            className="w-full bg-blue-950 dark:bg-blue-500 text-white font-bold py-3 rounded-sm hover:bg-blue-900 transform transition-active active:scale-[0.98] shadow-lg mt-2 cursor-pointer"
           >
             Sign In
           </button>
@@ -109,7 +108,7 @@ export default function Login() {
         
         <p className="text-center text-gray-600 dark:text-gray-200 mt-8 text-sm">
           Don't have an account? 
-          <a href="/register" className="text-blue-600 font-bold ml-1 hover:underline">Sign up</a>
+          <Link to={'/register'} className="text-blue-600 font-bold ml-1 hover:underline">Sign up</Link>
         </p>
       </div>
     </div>

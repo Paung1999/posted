@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router"
 import { useApp } from "../providers/AppProvider"
 
-const api = "http://localhost:8800";
+const api = import.meta.env.VITE_API_URL;
 
 export default function EditProfile(){
     const { auth, setAuth } = useApp();

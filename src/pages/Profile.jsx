@@ -2,7 +2,7 @@ import { useApp } from "../providers/AppProvider";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
-const api = "http://localhost:8800";
+const api = import.meta.env.VITE_API_URL;
 
 export default function Profile(){
     const {auth} = useApp();
@@ -18,6 +18,12 @@ export default function Profile(){
         },
         enabled: !!auth?.id,
     });
+
+    if(isError){
+        return (
+            <div>Something went wrong</div>
+        )
+    }
     if(!auth){
         return (
             <div className="p-4 text-center">

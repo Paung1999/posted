@@ -2,13 +2,13 @@ import Post from "../components/Post";
 import {useQuery} from '@tanstack/react-query';
 import Loading from "../components/Loading";
 
-const api = "http://localhost:8800/posts";
+const api = import.meta.env.VITE_API_URL;
 
 export default function Home(){
     const {data: posts, isLoading, isError} = useQuery({
         queryKey: ['posts'],
         queryFn: async () => {
-            const res = await fetch(api);
+            const res = await fetch(`${api}/posts`);
             return res.json();
         }
 

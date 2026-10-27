@@ -3,11 +3,11 @@ import { useNavigate } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useApp } from "../providers/AppProvider";
 
-const api = "http://localhost:8800";
+const api = import.meta.env.VITE_API_URL;
 
 
 export default function AddPostForm(){
-    const {auth} = useApp();
+    // const {auth} = useApp();
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const{

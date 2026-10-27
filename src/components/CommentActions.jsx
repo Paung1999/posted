@@ -2,11 +2,16 @@ import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useApp } from "../providers/AppProvider";
+import {faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import ConfirmDialog from "./ConfirmDialog.jsx";
+import useDialog from "../hooks/useDialog.js";
 
-const api = "http://localhost:8800";
+const api = import.meta.env.VITE_API_URL;
 
-export default function CommentActions({comment, post}){
+export default function CommentActions({comment, post, onEdit }){
     const [showMenu, setShowMenu] = useState(false);
+    const {open, setOpen, handleClose} = useDialog();
     const queryClient = useQueryClient();
     const {auth} = useApp();
 
@@ -25,7 +30,7 @@ export default function CommentActions({comment, post}){
             }
         },
         onSuccess: ()=> {
-            queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['post', String(post.id)] });
 
         }
     });
@@ -64,23 +69,30 @@ export default function CommentActions({comment, post}){
             {showMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50">
                     <div className="py-1">
-                        <button onClick={()=> {
-                            if(window.confirm('Are you sure you want to delete this comment?')){
-                                deleteMutation.mutate();
+
+                        {comment.user.id === auth.id && (
+                            <button
+                                onClick={()=>{
+                                    onEdit();
+                                    setShowMenu(false)
+                                }}
+                                className="flex w-full items-center gap-2 px-4 py-2 text-left  text-sm text-slate-600 dark:text-slate-200 hover:bg-gray-300 dark:hover:bg-gray-700"
+                            >
+                                <FontAwesomeIcon icon={faPenToSquare} />
+                                Edit
+                            </button>
+                        )}
+                        <button
+                            onClick={() => {
+                                setOpen(!open)
+                                setShowMenu(false);
+                                }
                             }
-                            setShowMenu(false)
-                        }}
-                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-600 dark:text-slate-200 hover:text-red-600 hover:bg-gray-300 dark:hover:bg-gray-700"
                         >
+                            <FontAwesomeIcon icon={faTrashCan} />
                             Delete
                         </button>
-                        {comment.user.id === auth.id && (
-                            <button 
-                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                            Edit
-                        </button>
-                        )}
                     </div>
                 </div>
             )}
@@ -92,6 +104,13 @@ export default function CommentActions({comment, post}){
 
                 </div>
             )}
+
+            <ConfirmDialog title={'Delete this comment?'}
+                           message={'Are you sure you want to delete this comment?'}
+                           open={open}
+                           onConfirm={()=>deleteMutation.mutate()}
+                           onClose={handleClose}
+            />
         </div>
     )
 }

@@ -8,7 +8,7 @@ export function useApp() {
 
 export default function AppProvider({children}){
   
-    const [mode , setMode] = useState( 'light');
+    const [mode , setMode] = useState( '');
     const [openDrawer , setOpenDrawer] = useState(false);
     const [auth, setAuth] = useState();
 
