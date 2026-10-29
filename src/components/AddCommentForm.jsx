@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 const api = import.meta.env.VITE_API_URL;
 
@@ -16,9 +16,8 @@ export default function AddCommentForm({postId}){
     const addComment = async (data) => {
         try{
             const token = localStorage.getItem('token');
-            if(!token){
-                return;
-            }
+            if(!token) return;
+
             const res = await fetch(`${api}/posts/${postId}/comments`, {
                 method: 'POST',
                 headers: {
@@ -26,23 +25,31 @@ export default function AddCommentForm({postId}){
                     'Authorization' : `Bearer ${token}`
                 },
                 body: JSON.stringify({content: data.content})
-
             });
             if(!res.ok){
                 return;
             }
             await res.json()
             reset();
-            queryClient.invalidateQueries({ queryKey: ['posts'] });
-
         }catch(err){
             console.log(err);
         }
     }
 
+    const mutation = useMutation({
+        mutationFn: addComment,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['post', String(postId)]})
+        }
+    });
+
+    const onSubmit = (data) => {
+        mutation.mutate({content: data.content})
+    }
+
     return(
         <div className="w-full max-w-2xl mt-6 mb-2">
-            <form onSubmit={handleSubmit(addComment)} className="relative">
+            <form onSubmit={handleSubmit(onSubmit)} className="relative">
                 <div className="relative">
                     <textarea
                         id="content"

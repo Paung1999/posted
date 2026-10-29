@@ -31,7 +31,7 @@ export default function Register(){
             navigate('/login');
             
 
-        }catch(err) {
+        }catch {
             setRegisterError(true);
         }
     }
