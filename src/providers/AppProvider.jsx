@@ -1,10 +1,13 @@
-import { useContext, useState, createContext, useEffect , useMemo } from "react";
+import { useContext, useState, createContext, useEffect , } from "react";
+
+const api = import.meta.env.VITE_API_URL;
 
 const AppContext = createContext();
 
 export function useApp() {
     return useContext(AppContext);
 }
+
 
 export default function AppProvider({children}){
   
@@ -13,7 +16,6 @@ export default function AppProvider({children}){
     const [auth, setAuth] = useState();
 
     useEffect(()=> {
-        const api = "http://localhost:8800";
         const token = localStorage.getItem('token');
         if(token){
             fetch(`${api}/users/verify`, {
@@ -31,7 +33,6 @@ export default function AppProvider({children}){
             })
         }
 
-        
     },[]);
 
 
